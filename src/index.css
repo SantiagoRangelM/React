@@ -10,7 +10,7 @@ body {
 
 /* Contenedor principal */
 .container {
-  max-width: 700px;
+  max-width: 80%;
   margin: 0 auto;
   background: #fff;
   padding: 20px;
@@ -19,8 +19,8 @@ body {
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Botón de modo oscuro */
-.dark-mode-toggle {
+/* Botón de cambio de tema */
+.theme-toggle {
   background: #333;
   color: white;
   border: none;
@@ -31,25 +31,74 @@ body {
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.dark-mode-toggle:hover {
+.theme-toggle:hover { /* Efecto hover  para el botón modo claro*/
   background: #555;
   transform: scale(1.05);
 }
 
+
 /* Modo oscuro */
-.dark-mode {
+.dark {
   background-color: #1e1e1e;
   color: #fff;
 }
 
-.dark-mode .container {
+.dark .container {
   background: #2c2c2c;
   box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
 }
 
-.dark-mode .dark-mode-toggle {
-  background: #ddd;
-  color: #333;
+.dark .theme-toggle {
+  background: #619af5;
+  color: #fff;
+}
+
+/* Modo azul */
+.blue {
+  background-color: #1e3a8a; /* Color de fondo */
+  color: #fff; /* Color de texto */
+}
+
+.blue .container { /* Contenedor */
+  background: #619af5; /* Fondo */
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); /* Sombra */
+}
+
+.blue .theme-toggle { /* Botón de cambio de tema */
+  background: #3B8C66; /* Fondo */
+  color: #fff; /* Texto */
+}
+
+/* Modo verde */
+.green {
+  background-color: #03401D; /* Color de fondo */
+  color: #fff; /* Color de texto */
+}
+
+.green .container { /* Contenedor */
+  background: #347355; /* Fondo */
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); /* Sombra */
+}
+
+.green .theme-toggle { /* Botón de cambio de tema */
+  background: #F24A2B; /* Fondo */
+  color: #fff; /* Texto */
+}
+
+/* Modo naranja */
+.orange {
+  background-color: #D85F02; /* Color de fondo */
+  color: #fff; /* Color de texto */
+}
+
+.orange .container { /* Contenedor */
+  background: #FF8E01; /* Fondo */
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); /* Sombra */
+}
+
+.orange .theme-toggle { /* Botón de cambio de tema */
+  background: #fff; /* Fondo */
+  color: #000; /* Texto */
 }
 
 /* Formulario de creación */
@@ -76,11 +125,12 @@ input:focus, select:focus {
   outline: none;
 }
 
-.dark-mode input, .dark-mode select {
+.dark input, .dark select { /* Modo oscuro para el select del formulario */
   background: #333;
   border-color: #666;
-  color: white;
+  color: white; /* Texto */
 }
+
 
 button {
   background: #28a745;
@@ -91,6 +141,10 @@ button {
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
+}
+.button-group{
+  width: 30%;
+
 }
 
 button:hover {
@@ -120,15 +174,34 @@ ul {
   transform: scale(1.02);
 }
 
-.dark-mode .product-item {
+.dark .product-item { /* Modo oscuro para la lista de productos */
   background: #3a3a3a;
   box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
 }
 
-/* Botones de acción */
+.blue .product-item { /* Modo azul para la lista de productos */
+  background: #3f598f;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+.green .product-item { /* Modo verde para la lista de productos */
+  background: #9FBFAD;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+.orange .product-item { /* Modo verde para la lista de productos */
+  background: #F27405;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+/* Boton agregar */
 .button-group {
   display: flex;
   gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  align-self: center;
+  
 }
 
 .edit-btn, .delete-btn, .save-btn, .cancel-btn {
@@ -193,10 +266,26 @@ ul {
   border-radius: 6px;
 }
 
-.dark-mode .product-content input, .dark-mode .product-content select {
-  background: #444;
-  border-color: #666;
-  color: white;
+.dark .product-content input, .dark .product-content select {  /* Modo oscuro  para la lista de productos */ 
+  background: #444; /* Fondo */
+  border-color: #666; /* Borde */
+  color: white; /* Texto */
+}
+.blue .product-content input, .blue .product-content select {  /* Modo azul  para la lista de productos */ 
+  background: #72abe9; /* Fondo */
+  border-color: #aec5f8; /* Borde */
+  color: white; /* Texto */
+}
+
+.green .product-content input, .green .product-content select {  /* Modo verde  para la lista de productos */ 
+  background: #A0CD60; /* Fondo */
+  border-color: #aec5f8; /* Borde */
+  color: white; /* Texto */
+}
+.orange .product-content input, .orange .product-content select {  /* Modo verde  para la lista de productos */ 
+  background: #F29B30; /* Fondo */
+  border-color: #fff; /* Borde */
+  color: white; /* Texto */
 }
 
 input {
@@ -247,14 +336,154 @@ input {
 }
 
 /* Modo oscuro */
-.dark-mode .checkbox-container input[type="checkbox"] {
+.dark .checkbox-container input[type="checkbox"] {  
   background: #666;
 }
 
-.dark-mode .checkbox-container input[type="checkbox"]:checked {
+.dark .checkbox-container input[type="checkbox"]:checked {
   background: #17a2b8;
 }
 
-.dark-mode .checkbox-container input[type="checkbox"]::before {
+.dark .checkbox-container input[type="checkbox"]::before {
   background: #ddd;
+}
+
+/* Modo azul */
+.blue .checkbox-container input[type="checkbox"] { /* Modo azul para el checkbox */
+  background: #666666;
+}
+
+.blue .checkbox-container input[type="checkbox"]:checked { /* Modo azul para el checkbox checked*/
+  background: #174ab8;
+}
+
+.blue .checkbox-container input[type="checkbox"]::before { /* Modo azul para el checkbox before */
+  background: #ddd;
+}
+
+/* Modo verde */
+.green .checkbox-container input[type="checkbox"] { /* Modo azul para el checkbox */
+  background: #666666;
+}
+
+.green .checkbox-container input[type="checkbox"]:checked { /* Modo azul para el checkbox checked*/
+  background: #9FD948;
+}
+
+.green .checkbox-container input[type="checkbox"]::before { /* Modo azul para el checkbox before */
+  background: #ddd;
+}
+/* Modo naranja */
+.orange .checkbox-container input[type="checkbox"] { /* Modo azul para el checkbox */
+  background: #666666;
+}
+
+.orange .checkbox-container input[type="checkbox"]:checked { /* Modo azul para el checkbox checked*/
+  background: #F24A2B;
+}
+
+.orange .checkbox-container input[type="checkbox"]::before { /* Modo azul para el checkbox before */
+  background: #ddd;
+}
+
+/* Contenedor de filtros: alineado al centro */
+.filter-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center; /* Centra los elementos */
+  margin-bottom: 15px;
+  flex-wrap: wrap; /* Para adaptarse en pantallas pequeñas */
+}
+
+/* Estilo de la caja de búsqueda */
+.search-box {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
+}
+
+/* Estilos de los filtros de fecha */
+.date-filter {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 160px;
+  text-align: center;
+}
+
+/* Botón de limpiar */
+.clear-btn {
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.clear-btn:hover { /* Efecto hover para el botón de limpiar */
+  background-color: #610c09;
+}
+
+/* Contenedor de formulario: alineado al centro */
+.form-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center; /* Centra los elementos */
+  margin-bottom: 15px;
+  flex-wrap: wrap; /* Para adaptarse en pantallas pequeñas */
+}
+
+/* Estilo de la caja de Marca */
+.marca-box {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
+}
+
+/* Estilos de los filtros de fecha */
+.serial-box {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
+}
+
+.sala-box {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
+}
+
+.core-box {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
+}
+
+.ram-box {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 250px;
+  text-align: center;
 }

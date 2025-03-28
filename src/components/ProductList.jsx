@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ProductList = ({ products, onDelete, onEdit }) => {
   const [editIndex, setEditIndex] = useState(null);
@@ -8,15 +8,37 @@ const ProductList = ({ products, onDelete, onEdit }) => {
   const [editRam, setEditRam] = useState(""); // NUEVO ESTADO PARA LA RAM
   const [editCategory, setEditCategory] = useState("");
   const [editStatus, setEditStatus] = useState(false);
+  const [editEntryDate, setEditEntryDate] = useState("");
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        handleCancel();
+      }
+    };
+
+    if (editIndex !== null) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [editIndex]); // Se ejecuta cuando editIndex cambia
 
   const handleEdit = (index, product) => {
     setEditIndex(index);
-    setEditProduct(product.product);
+    setEditProduct(product.name);
     setEditSerial(product.serial);
     setEditNumCores(product.numCores);
     setEditRam(product.ram);
     setEditCategory(product.category);
     setEditStatus(product.status === "Usado");
+    setEditEntryDate(product.entryDate);
   };
 
   const handleSave = (index) => {
@@ -25,15 +47,17 @@ const ProductList = ({ products, onDelete, onEdit }) => {
       editSerial.trim() &&
       editNumCores.trim() &&
       editRam.trim() &&
-      editCategory.trim()
+      editCategory.trim() &&
+      editEntryDate
     ) {
       onEdit(index, {
-        product: editProduct,
+        name: editProduct,
         serial: editSerial,
         numCores: editNumCores,
         ram: editRam, // Guardamos la RAM
         category: editCategory,
         status: editStatus ? "Usado" : "Nuevo",
+        entryDate: editEntryDate
       });
       setEditIndex(null);
     }
@@ -49,11 +73,61 @@ const ProductList = ({ products, onDelete, onEdit }) => {
     setEditStatus(false);
   };
 
+  const handleClearSearch = () => { // Función que maneja la limpieza de la búsqueda
+    setSearchTerm("");
+    setStartDate("");
+    setEndDate("");
+  };
+
+  const filteredProducts = products.filter((product) => { 
+    const matchesSearch =
+    (product.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) || 
+    (product.category?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+    (product.status?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+    (product.serial?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+    (String(product.ram).toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+    (String(product.numCores).toLowerCase().includes(searchTerm.toLowerCase()) || false);
+
+    const matchesDateRange =
+      (!startDate || product.entryDate >= startDate) &&
+      (!endDate || product.entryDate <= endDate);
+
+    return matchesSearch && matchesDateRange;
+});
+
+
   return (
     <div>
       <h2>Lista de Productos</h2>
+
+      {/* Barra de búsqueda y filtro de fechas en una sola línea */}
+      <div className="filter-container">   {/* Contenedor de la barra de búsqueda y filtro de fechas */}
+        <input
+          type="text"
+          placeholder="Buscar producto..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-box"
+        />
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          max={new Date().toISOString().split("T")[0]}
+          className="date-filter"
+        />
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+          max={new Date().toISOString().split("T")[0]}
+          className="date-filter"
+        />
+        <button onClick={handleClearSearch} className="clear-btn">Limpiar</button>
+      </div> {/* Fin del contenedor de la barra de búsqueda y filtro de fechas */}
+      
       <ul>
-        {products.map((product, index) => (
+        {filteredProducts.map((product, index) => (
           <li key={index} className="product-item">
             <div className="product-content">
               {editIndex === index ? (
@@ -118,11 +192,11 @@ const ProductList = ({ products, onDelete, onEdit }) => {
                 </>
               ) : (
                 <span>
-                  <strong>Marca:</strong> {product.product} | 
-                  <strong> Serial:</strong> {product.serial} | 
-                  <strong> Núcleos:</strong> {product.numCores} | 
-                  <strong> RAM:</strong> {product.ram} GB | 
-                  <strong> Categoría:</strong> {product.category} | 
+                  <strong> Marca:</strong> {product.name} |
+                  <strong> Serial:</strong> {product.serial} |
+                  <strong> Núcleos:</strong> {product.numCores} |
+                  <strong> RAM:</strong> {product.ram} GB |
+                  <strong> Categoría:</strong> {product.category} |
                   <strong> Estado:</strong> {product.status}
                 </span>
               )}
