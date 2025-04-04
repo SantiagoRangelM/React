@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProductList = ({ products, onDelete, onEdit }) => {
+  const navigate = useNavigate();
   const [editIndex, setEditIndex] = useState(null);
   const [editProduct, setEditProduct] = useState("");
   const [editSerial, setEditSerial] = useState("");
@@ -79,21 +81,21 @@ const ProductList = ({ products, onDelete, onEdit }) => {
     setEndDate("");
   };
 
-  const filteredProducts = products.filter((product) => { 
+  const filteredProducts = products.filter((product) => {
     const matchesSearch =
-    (product.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) || 
-    (product.category?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
-    (product.status?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
-    (product.serial?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
-    (String(product.ram).toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
-    (String(product.numCores).toLowerCase().includes(searchTerm.toLowerCase()) || false);
+      (product.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+      (product.category?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+      (product.status?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+      (product.serial?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+      (String(product.ram).toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+      (String(product.numCores).toLowerCase().includes(searchTerm.toLowerCase()) || false);
 
     const matchesDateRange =
       (!startDate || product.entryDate >= startDate) &&
       (!endDate || product.entryDate <= endDate);
 
     return matchesSearch && matchesDateRange;
-});
+  });
 
 
   return (
@@ -125,7 +127,7 @@ const ProductList = ({ products, onDelete, onEdit }) => {
         />
         <button onClick={handleClearSearch} className="clear-btn">Limpiar</button>
       </div> {/* Fin del contenedor de la barra de búsqueda y filtro de fechas */}
-      
+
       <ul>
         {filteredProducts.map((product, index) => (
           <li key={index} className="product-item">
@@ -213,6 +215,9 @@ const ProductList = ({ products, onDelete, onEdit }) => {
                 </>
               ) : (
                 <>
+                  <button onClick={() => navigate("/detalle-producto", { state: { product, index } })}>
+                    Ver Detalles
+                  </button>
                   <button className="edit-btn" onClick={() => handleEdit(index, product)}>
                     Editar
                   </button>

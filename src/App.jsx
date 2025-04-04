@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import ProductList from "./components/ProductList";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProductForm from "./components/ProductForm";
+import ProductDetail from "./components/ProductDetail";
 import "./index.css";
 
 const App = () => {
   const [products, setProducts] = useState([]);
   const [theme, setTheme] = useState("light"); // Estado para el tema de la aplicación (light, dark, blue)  
+
+  
 
   useEffect(() => {
     const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
@@ -59,24 +63,38 @@ const App = () => {
   };
 
   return ( // Renderiza el formulario y la lista de productos
-    <div className="container">
-      <button className="theme-toggle" onClick={toggleTheme}>
-        {
-          theme === "light"
-            ? "🌙 Modo Oscuro"
-            : theme === "dark"
-              ? "🔵 Modo Azul"
-              : theme === "blue"
-                ? "🟢 Modo Verde"
-                : theme === "green"
-                  ? "🟠 Modo Naranja"
-                  : "☀️ Modo Claro"
-        }
-      </button>
-      <h1>Inventario de Equipos de la USTA</h1>
-      <ProductForm onAdd={addProduct} />
-      <ProductList products={products} onDelete={deleteProduct} onEdit={editProduct} />
-    </div>
+    <Router>
+      <div className="container">
+        <button className="theme-toggle" onClick={toggleTheme}>
+          {
+            theme === "light"
+              ? "🌙 Modo Oscuro"
+              : theme === "dark"
+                ? "🔵 Modo Azul"
+                : theme === "blue"
+                  ? "🟢 Modo Verde"
+                  : theme === "green"
+                    ? "🟠 Modo Naranja"
+                    : "☀️ Modo Claro"
+          }
+        </button>
+        <h1>Inventario de Equipos de la USTA</h1>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <ProductForm onAdd={addProduct} />
+                <ProductList products={products} onDelete={deleteProduct} onEdit={editProduct} />
+
+              </>
+            }
+          />
+          <Route path="/detalle-producto" element={<ProductDetail onEdit={editProduct} />} />
+        </Routes>
+      </div>
+    </Router>
+
   );
 };
 
